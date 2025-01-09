@@ -5,7 +5,6 @@ import User from "../models/User.js";
 export const createReservation = async (req, res, next) => {
     try {
       const { pitchId, userId, date, hour } = req.body;
-      console.log("Received data:", { pitchId, userId, date, hour });
   
       if (!mongoose.Types.ObjectId.isValid(pitchId)) {
         console.error("Invalid pitchId:", pitchId);

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import CalendarView from "../components/CalendarView";
+import API from "../api/axios";
 
 const PitchDetails = () => {
   const { id } = useParams();
@@ -18,8 +19,15 @@ const PitchDetails = () => {
       setError("You must be logged in to make a reservation");
       return;
     }
-
+  
     try {
+      // eslint-disable-next-line no-unused-vars
+      const res = await API.post("/reservations", {
+        pitchId: id,
+        userId,
+        date: selectedDateTime.date,
+        hour: selectedDateTime.hour,
+      });
       setSuccess("Reservation created successfully!");
       setError(null);
       setRefresh(!refresh); // Refresh calendar after reservation
@@ -29,6 +37,7 @@ const PitchDetails = () => {
       setSuccess(null);
     }
   };
+  
 
   const handleDateSelect = (date, hour) => {
     if (!hour) {
