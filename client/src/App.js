@@ -10,6 +10,8 @@ import LoginPage from "./pages/LoginPage";
 import UserPanel from "./pages/UserPanel";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRoute
+import RegisterPage from "./pages/RegisterPage";
+
 
 const App = () => {
   return (
@@ -29,6 +31,8 @@ const App = () => {
         />
         <Route path="/pitch/:id" element={<PitchDetails />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/register" element={<RegisterPage />} />
+
 
         {/* Trasy panelu administratora */}
         <Route

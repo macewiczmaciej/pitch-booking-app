@@ -40,14 +40,17 @@ const PitchDetails = () => {
   
 
   const handleDateSelect = (date, hour) => {
-    if (!hour) {
-      setError("Please select a full hour slot.");
+    const now = new Date();
+    const selectedDateTime = new Date(`${date}T${hour}:00`);
+    if (selectedDateTime <= now) {
+      setError("You can only select future time slots.");
       return;
     }
     setSelectedDateTime({ date, hour });
     setError(null);
     setSuccess(null);
   };
+  
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -55,7 +58,7 @@ const PitchDetails = () => {
 
       {/* Calendar View */}
       <div className="bg-white p-4 rounded shadow mb-6">
-        <CalendarView pitchId={id} onDateSelect={handleDateSelect} key={refresh} />
+        <CalendarView pitchId={id} onDateSelect={handleDateSelect} key={refresh} setError={setError} />
       </div>
 
       {/* Selected Slot */}

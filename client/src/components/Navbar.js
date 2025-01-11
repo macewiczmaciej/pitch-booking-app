@@ -60,12 +60,7 @@ const Navbar = () => {
             </>
           )}
           {!user && (
-            <Link
-              to="/login"
-              className="text-white hover:text-gray-300 transition-colors"
-            >
-              Login
-            </Link>
+            <><Link to="/login" className="text-white hover:text-gray-300 transition-colors">Login</Link><Link to="/register" className="text-white hover:underline">Register</Link></>
           )}
         </div>
       </div>

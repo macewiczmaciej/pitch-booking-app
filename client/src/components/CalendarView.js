@@ -5,10 +5,9 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import API from "../api/axios";
 
-const CalendarView = ({ pitchId, onDateSelect }) => {
+const CalendarView = ({ pitchId, onDateSelect, setError }) => {
   const [events, setEvents] = useState([]);
   const [reservedSlots, setReservedSlots] = useState([]);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -29,41 +28,49 @@ const CalendarView = ({ pitchId, onDateSelect }) => {
       }
     };
     fetchReservations();
-  }, [pitchId]);
+  }, [pitchId, setError]);
 
-  if (error) return <div>Error: {error}</div>;
+  const handleDateClick = (info) => {
+    const now = new Date();
+    const selectedDateTime = new Date(info.dateStr);
+
+    if (selectedDateTime <= now) {
+      setError("You can only select future time slots.");
+      return;
+    }
+
+    if (reservedSlots.includes(info.dateStr)) {
+      setError("This slot is already reserved.");
+      return;
+    }
+
+    const selectedDate = info.dateStr.split("T")[0];
+    const selectedTime = info.dateStr.split("T")[1]?.substring(0, 5); // HH:mm format
+    if (onDateSelect) {
+      onDateSelect(selectedDate, selectedTime);
+    }
+
+    setError(null); // Clear any previous error
+  };
 
   return (
-    <div>
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        initialView="timeGridWeek"
-        events={events}
-        editable={false}
-        selectable={true}
-        slotMinTime="08:00:00"
-        slotMaxTime="22:00:00"
-        slotDuration="01:00:00"
-        height="auto"
-        headerToolbar={{
-          left: "prev,next today",
-          center: "title",
-          right: "dayGridMonth,timeGridWeek,timeGridDay",
-        }}
-        dateClick={(info) => {
-          const selectedDateTime = `${info.dateStr}`;
-          if (reservedSlots.includes(selectedDateTime)) {
-            alert("This slot is already reserved!");
-            return;
-          }
-          const selectedDate = info.dateStr.split("T")[0];
-          const selectedTime = info.dateStr.split("T")[1]?.substring(0, 5); // HH:mm time format
-          if (onDateSelect) {
-            onDateSelect(selectedDate, selectedTime);
-          }
-        }}
-      />
-    </div>
+    <FullCalendar
+      plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+      initialView="timeGridWeek"
+      events={events}
+      editable={false}
+      selectable={true}
+      slotMinTime="08:00:00"
+      slotMaxTime="22:00:00"
+      slotDuration="01:00:00"
+      height="auto"
+      headerToolbar={{
+        left: "prev,next today",
+        center: "title",
+        right: "dayGridMonth,timeGridWeek,timeGridDay",
+      }}
+      dateClick={handleDateClick}
+    />
   );
 };
 
