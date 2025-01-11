@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import API from "../api/axios";
+import AlertMessage from "../components/AlertMessage";
 
 const UserPanel = () => {
   const { id: userId } = useParams();
@@ -12,6 +13,8 @@ const UserPanel = () => {
     lastName: "",
   });
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -39,9 +42,9 @@ const UserPanel = () => {
   const saveUserData = async () => {
     try {
       await API.put(`/users/${userId}`, userData);
-      alert("User data updated successfully!");
+      setSuccess("User data updated successfully!");
     } catch (err) {
-      alert("Failed to update user data.");
+      setError("Failed to update user data.");
     }
   };
 
@@ -101,6 +104,8 @@ const UserPanel = () => {
           >
             Save Changes
           </button>
+          {<AlertMessage type="error" message={error}></AlertMessage>}
+          {<AlertMessage type="success" message={success}></AlertMessage>}
         </div>
       </div>
 

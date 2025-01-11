@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import CalendarView from "../components/CalendarView";
 import API from "../api/axios";
+import AlertMessage from "../components/AlertMessage";
 
 const PitchDetails = () => {
   const { id } = useParams();
@@ -19,10 +20,9 @@ const PitchDetails = () => {
       setError("You must be logged in to make a reservation");
       return;
     }
-  
+
     try {
-      // eslint-disable-next-line no-unused-vars
-      const res = await API.post("/reservations", {
+      await API.post("/reservations", {
         pitchId: id,
         userId,
         date: selectedDateTime.date,
@@ -37,7 +37,6 @@ const PitchDetails = () => {
       setSuccess(null);
     }
   };
-  
 
   const handleDateSelect = (date, hour) => {
     const now = new Date();
@@ -50,7 +49,6 @@ const PitchDetails = () => {
     setError(null);
     setSuccess(null);
   };
-  
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -81,16 +79,8 @@ const PitchDetails = () => {
       )}
 
       {/* Error and Success Messages */}
-      {error && (
-        <div className="text-red-500 mt-4 p-2 bg-red-100 rounded shadow">
-          {error}
-        </div>
-      )}
-      {success && (
-        <div className="text-green-500 mt-4 p-2 bg-green-100 rounded shadow">
-          {success}
-        </div>
-      )}
+      <AlertMessage type="error" message={error} />
+      <AlertMessage type="success" message={success} />
     </div>
   );
 };

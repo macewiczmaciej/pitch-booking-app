@@ -17,7 +17,7 @@ const Navbar = () => {
         <div className="flex space-x-6 text-lg">
           <Link
             to="/"
-            className="text-white hover:text-gray-300 transition-colors"
+            className="text-white hover:text-gray-300 transition-colors px-4 py-2"
           >
             Home
           </Link>
@@ -25,7 +25,7 @@ const Navbar = () => {
             <>
               <Link
                 to={`/user/${user._id}`}
-                className="text-white hover:text-gray-300 transition-colors"
+                className="text-white hover:text-gray-300 transition-colors px-4 py-2"
               >
                 My Account
               </Link>
@@ -33,19 +33,19 @@ const Navbar = () => {
                 <>
                   <Link
                     to="/admin/users"
-                    className="text-white hover:text-gray-300 transition-colors"
+                    className="text-white hover:text-gray-300 transition-colors px-4 py-2"
                   >
                     Manage Users
                   </Link>
                   <Link
                     to="/admin/pitches"
-                    className="text-white hover:text-gray-300 transition-colors"
+                    className="text-white hover:text-gray-300 transition-colors px-4 py-2"
                   >
                     Manage Pitches
                   </Link>
                   <Link
                     to="/admin/reservations"
-                    className="text-white hover:text-gray-300 transition-colors"
+                    className="text-white hover:text-gray-300 transition-colors px-4 py-2"
                   >
                     Manage Reservations
                   </Link>
@@ -60,7 +60,7 @@ const Navbar = () => {
             </>
           )}
           {!user && (
-            <><Link to="/login" className="text-white hover:text-gray-300 transition-colors">Login</Link><Link to="/register" className="text-white hover:underline">Register</Link></>
+            <><Link to="/login" className="text-white hover:text-gray-300 transition-colors px-4 py-2" >Login</Link><Link to="/register" className="text-white hover:underline px-4 py-2">Register</Link></>
           )}
         </div>
       </div>

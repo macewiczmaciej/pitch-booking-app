@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import API from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
+import AlertMessage from "../components/AlertMessage";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -32,7 +33,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-[85vh] bg-gray-100">
       <div className="w-full max-w-md bg-white rounded shadow-md p-6">
         <h1 className="text-2xl font-bold text-blue-600 text-center mb-4">Login</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -64,7 +65,8 @@ const LoginPage = () => {
           >
             Login
           </button>
-          {error && <p className="text-red-500 text-center mt-2">{error}</p>}
+          {}
+          <AlertMessage type="error" message={error}/>
         </form>
       </div>
     </div>
